@@ -1,0 +1,101 @@
+{
+    "id": "9120fe37-8eeb-454e-9b80-e9fc0479fa2d",
+    "sceneType": "SCENE",
+    "settings": {
+        "exportClass": true,
+        "autoImport": true,
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "GameMain",
+        "compilerOutputLanguage": "TYPE_SCRIPT",
+        "borderWidth": 1280,
+        "borderHeight": 720
+    },
+    "displayList": [
+        {
+            "type": "Rectangle",
+            "id": "fa93bf47-7849-4553-9c29-18e105d5800c",
+            "label": "rectangle_1",
+            "y": 628.5866111789081,
+            "scaleX": 10.03867636263103,
+            "scaleY": 0.7141671001647801,
+            "originX": 0,
+            "originY": 0,
+            "isFilled": true,
+            "fillColor": "#7c9e5f",
+            "width": 128,
+            "height": 128
+        },
+        {
+            "type": "ArcadeSprite",
+            "id": "f3995ff4-bf76-4ce5-9d18-df260da28038",
+            "label": "cloud_1",
+            "scope": "CLASS",
+            "hitArea.shape": "RECTANGLE",
+            "hitArea.width": 500,
+            "hitArea.height": 1640,
+            "texture": {
+                "key": "cloud"
+            },
+            "x": 310,
+            "y": 410,
+            "scaleX": 0.15,
+            "scaleY": 0.15,
+            "body.friction.y": 1,
+            "allowGravity": false,
+            "body.bounce.x": 0.8,
+            "body.bounce.y": 0.8,
+            "collideWorldBounds": true,
+            "body.width": 3033,
+            "body.height": 1640
+        },
+        {
+            "type": "ArcadeSprite",
+            "id": "a6fd3fa0-adf9-4544-bd28-23c3f6b51272",
+            "label": "cloud_2",
+            "scope": "CLASS",
+            "texture": {
+                "key": "cloud"
+            },
+            "x": 903,
+            "y": 280,
+            "scaleX": 0.15,
+            "scaleY": 0.15,
+            "tintTopLeft": "#ff1111",
+            "body.friction.y": 1,
+            "allowGravity": false,
+            "body.acceleration.x": 5,
+            "body.acceleration.y": 5,
+            "body.bounce.x": 0.8,
+            "body.bounce.y": 0.8,
+            "collideWorldBounds": true,
+            "body.width": 3033,
+            "body.height": 1640
+        },
+        {
+            "type": "ArcadeSprite",
+            "id": "0bb01c4a-1a7f-4ef6-9c74-00e2a986231e",
+            "label": "cloud_3",
+            "scope": "CLASS",
+            "texture": {
+                "key": "DVD_logo"
+            },
+            "x": 782,
+            "y": 519,
+            "scaleX": 0.06252731687748246,
+            "scaleY": 0.06252731687748246,
+            "body.bounce.x": 1,
+            "body.bounce.y": 1,
+            "collideWorldBounds": true,
+            "body.width": 2560,
+            "body.height": 1128
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    }
+}
