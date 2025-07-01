@@ -7,7 +7,7 @@
 /* END-USER-IMPORTS */
 
 export default class GameMain extends Phaser.Scene {
-
+	
 	constructor() {
 		super("GameMain");
 
@@ -68,6 +68,8 @@ export default class GameMain extends Phaser.Scene {
 		this.events.emit("scene-awake");
 	}
 
+	private args!: { mode: string };
+	private objGroup!: Phaser.Physics.Arcade.Group;
 	private cloud_1!: Phaser.Physics.Arcade.Sprite;
 	private cloud_2!: Phaser.Physics.Arcade.Sprite;
 	private cloud_3!: Phaser.Physics.Arcade.Sprite;
@@ -76,25 +78,103 @@ export default class GameMain extends Phaser.Scene {
 
 	// Write your code here
 
+	init(args: { mode: string })
+	{
+		console.log("initializing", args);
+		this.args = args;
+	}
+
 	create() {
 
-		this.editorCreate();
+		console.log(this);
+		console.log(this.args);
+		
+		if (this.args.mode !== 'sandbox') {
+			
+			this.editorCreate();
 
-		const clouds = [this.cloud_1, this.cloud_2, this.cloud_3];
+			const clouds = [this.cloud_1, this.cloud_2, this.cloud_3];
 
-		clouds.forEach((cloud) => {
-			// cloud.setColliderWorldBounds(true).setBounce(0.2);
-			console.log(cloud);
-			cloud.setInteractive();
-			cloud.on('pointerover', () => {
-				cloud
-				.setVelocityY(Phaser.Math.Between(-1000, 5000))
-				.setVelocityX(Phaser.Math.Between(-1000, 5000));
+			clouds.forEach((cloud) => {
+				cloud.setInteractive();
+				cloud.on('pointerover', () => {
+					cloud
+					.setVelocityY(Phaser.Math.Between(-1000, 5000))
+					.setVelocityX(Phaser.Math.Between(-1000, 5000));
+				});
+			})
+
+			this.physics.add.collider(this.cloud_1, [this.cloud_2, this.cloud_3]);
+		}
+		else {
+			console.log("Playing sandbox!");
+
+			this.objGroup = this.physics.add.group();
+
+			this.input.on("pointerdown", (pointer) => {
+				this.createDVD(pointer.x, pointer.y);
 			});
-		})
 
-		this.physics.add.collider(this.cloud_1, [this.cloud_2, this.cloud_3]);
+			this.physics.add.collider(this.objGroup, this.objGroup, (obj1, obj2) => {
+				let objToGrow = obj1;
+				let objToDelete = obj2;
+				if (obj1.scale < obj2.scale) {
+					objToGrow = obj2;
+					objToDelete = obj1;
+				}
+				objToGrow.setScale(objToGrow.scale*1.1);
+				objToGrow.setTint(objToGrow.tint + 100);
+				console.log(objToGrow.tint);
+				this.objGroup.remove(objToDelete);
+				objToDelete.destroy();
+
+				if (objToGrow.scale > 0.45) {
+					let objX = objToGrow.x;
+					let objY = objToGrow.y;
+					this.objGroup.remove(objToGrow);
+					objToGrow.destroy();
+
+					for (let i = 0; i < 100; i++) {
+						this.createDVD(objX, objY);
+					}
+				}
+			});
+		}
 	}
+
+	update()
+	{
+		console.log(this.objGroup.getLength());
+	}
+
+	private createDVD(x: number, y: number)
+	{
+		if (this.objGroup.getLength() > 500) return;
+
+		const obj = this.objGroup.create(x, y, "DVD_logo");
+		// const tint = Phaser.Display.Color.RandomRGB().color;
+
+		obj
+		.setTint(0xff0000)
+		.setScale(0.03)
+		.setBounce(0.8)
+		.setCollideWorldBounds(true)
+		.setVelocityY(Phaser.Math.Between(-100, 100))
+		.setVelocityX(Phaser.Math.Between(-100, 100))
+		.setFriction(0);
+
+		obj.body.setAllowGravity(false);
+		
+		obj.setInteractive();
+		obj.on("pointerover", () => {
+			obj
+			.setVelocityY(Phaser.Math.Between(-1000, 1000))
+			.setVelocityX(Phaser.Math.Between(-1000, 1000))
+		});
+
+		return obj;
+	}
+
 
 	/* END-USER-CODE */
 }
