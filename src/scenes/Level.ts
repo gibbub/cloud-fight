@@ -25,7 +25,7 @@ export default class Level extends Phaser.Scene {
 		text.setStyle({ "align": "center", "fontFamily": "Arial", "fontSize": "3em" });
 
 		// sandBoxButton
-		const sandBoxButton = this.add.text(640, 405, "", {});
+		const sandBoxButton = this.add.text(640, 278, "", {});
 		sandBoxButton.scaleX = 1.0629392256273105;
 		sandBoxButton.scaleY = 0.9097944705920783;
 		sandBoxButton.setOrigin(0.5, 0.5);
@@ -34,7 +34,7 @@ export default class Level extends Phaser.Scene {
 		sandBoxButton.setPadding({"left":20,"top":20,"right":20,"bottom":20});
 
 		// cloudFightButton
-		const cloudFightButton = this.add.text(640, 279, "", {});
+		const cloudFightButton = this.add.text(640, 412, "", {});
 		cloudFightButton.scaleX = 1.0629392256273105;
 		cloudFightButton.scaleY = 0.9097944705920783;
 		cloudFightButton.setOrigin(0.5, 0.5);

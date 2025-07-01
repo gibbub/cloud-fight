@@ -7,7 +7,7 @@
 /* END-USER-IMPORTS */
 
 export default class GameMain extends Phaser.Scene {
-	
+
 	constructor() {
 		super("GameMain");
 
@@ -68,15 +68,15 @@ export default class GameMain extends Phaser.Scene {
 		this.events.emit("scene-awake");
 	}
 
-	private args!: { mode: string };
-	private objGroup!: Phaser.Physics.Arcade.Group;
 	private cloud_1!: Phaser.Physics.Arcade.Sprite;
 	private cloud_2!: Phaser.Physics.Arcade.Sprite;
 	private cloud_3!: Phaser.Physics.Arcade.Sprite;
 
 	/* START-USER-CODE */
-
 	// Write your code here
+
+	private objGroup: Phaser.Physics.Arcade.Group;
+	private instructionText: Phaser.GameObjects.Text;
 
 	init(args: { mode: string })
 	{
@@ -85,13 +85,22 @@ export default class GameMain extends Phaser.Scene {
 	}
 
 	create() {
-
-		console.log(this);
 		console.log(this.args);
-		
+
+		this.input.keyboard.on('keydown-ESC', () => {
+			this.scene.stop();
+			this.scene.start("Level");
+		});
+
+		this.instructionText = this.add.text(0, 0, "WHIII", {
+			color: '#000'
+		});
+
 		if (this.args.mode !== 'sandbox') {
-			
+
 			this.editorCreate();
+
+			this.instructionText.setText("work in progress. press esc to go back");
 
 			const clouds = [this.cloud_1, this.cloud_2, this.cloud_3];
 
@@ -109,6 +118,8 @@ export default class GameMain extends Phaser.Scene {
 		else {
 			console.log("Playing sandbox!");
 
+			this.instructionText.setText("click. press esc to go back");
+
 			this.objGroup = this.physics.add.group();
 
 			this.input.on("pointerdown", (pointer) => {
@@ -123,8 +134,6 @@ export default class GameMain extends Phaser.Scene {
 					objToDelete = obj1;
 				}
 				objToGrow.setScale(objToGrow.scale*1.1);
-				objToGrow.setTint(objToGrow.tint + 100);
-				console.log(objToGrow.tint);
 				this.objGroup.remove(objToDelete);
 				objToDelete.destroy();
 
@@ -144,7 +153,6 @@ export default class GameMain extends Phaser.Scene {
 
 	update()
 	{
-		console.log(this.objGroup.getLength());
 	}
 
 	private createDVD(x: number, y: number)
@@ -152,19 +160,19 @@ export default class GameMain extends Phaser.Scene {
 		if (this.objGroup.getLength() > 500) return;
 
 		const obj = this.objGroup.create(x, y, "DVD_logo");
-		// const tint = Phaser.Display.Color.RandomRGB().color;
+		const tint = Phaser.Display.Color.RandomRGB().color;
 
 		obj
-		.setTint(0xff0000)
+		.setTint(tint)
 		.setScale(0.03)
-		.setBounce(0.8)
+		.setBounce(0.9)
 		.setCollideWorldBounds(true)
 		.setVelocityY(Phaser.Math.Between(-100, 100))
 		.setVelocityX(Phaser.Math.Between(-100, 100))
 		.setFriction(0);
 
 		obj.body.setAllowGravity(false);
-		
+
 		obj.setInteractive();
 		obj.on("pointerover", () => {
 			obj
