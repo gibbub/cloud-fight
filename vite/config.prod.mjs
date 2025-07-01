@@ -17,7 +17,7 @@ const phasermsg = () => {
 }   
 
 export default defineConfig({
-    base: './',
+    base: '/cloud-fight/', // Change this line - replace with your actual repo name
     logLevel: 'warning',
     build: {
         rollupOptions: {
