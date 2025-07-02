@@ -75,6 +75,7 @@ export default class GameMain extends Phaser.Scene {
 	/* START-USER-CODE */
 	// Write your code here
 
+	private baseScale=0.03;
 	private objGroup: Phaser.Physics.Arcade.Group;
 	private instructionText: Phaser.GameObjects.Text;
 
@@ -133,7 +134,8 @@ export default class GameMain extends Phaser.Scene {
 					objToGrow = obj2;
 					objToDelete = obj1;
 				}
-				objToGrow.setScale(objToGrow.scale*1.1);
+				const scaleFactor = objToDelete.scale - this.baseScale;
+				objToGrow.setScale(objToGrow.scale*(1.1 + scaleFactor));
 				this.objGroup.remove(objToDelete);
 				objToDelete.destroy();
 
@@ -164,7 +166,7 @@ export default class GameMain extends Phaser.Scene {
 
 		obj
 		.setTint(tint)
-		.setScale(0.03)
+		.setScale(this.baseScale)
 		.setBounce(0.9)
 		.setCollideWorldBounds(true)
 		.setVelocityY(Phaser.Math.Between(-100, 100))
